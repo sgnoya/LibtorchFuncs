@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <LibTorchDir>Z:\libtorch\libtorch-v1.6-cuda10-2</LibTorchDir>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(LibTorchDir)\include;$(LibTorchDir)\include\torch\csrc\api\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WarningLevel>Level1</WarningLevel>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(LibTorchDir)\lib_release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>asmjit.lib;c10.lib;c10_cuda.lib;caffe2_detectron_ops_gpu.lib;caffe2_module_test_dynamic.lib;caffe2_nvrtc.lib;clog.lib;cpuinfo.lib;fbgemm.lib;libprotobuf.lib;libprotobuf-lite.lib;libprotoc.lib;mkldnn.lib;torch.lib;torch_cpu.lib;torch_cuda.lib;cudart.lib;dnnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(LibTorchDir)\lib_release\*.dll $(TargetDir) /Y</Command>
+    </PostBuildEvent>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="LibTorchDir">
+      <Value>$(LibTorchDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
